@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: population-services
+  jpa: 
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  datasource:
+    url: jdbc:hsqldb:mem:testdb
+    driverClassName: org.hsqldb.jdbcDriver
+    username: sa
+    password:
+    platform: hsqldb
+  data:
+    rest:
+      base-uri: /api
+  
+hibernate:
+ dialect: org.hibernate.dialect.HSQLDialect
+    
+flyway:
+ enabled: true
+ 
+logging:
+  path: ./logs
+  file: pop.log
+  level:
+    org.springframework: INFO
+    org.flywaydb: DEBUG
+    
+# HTTP Server
+server:
+  port: 8763   # HTTP (Tomcat) port    
