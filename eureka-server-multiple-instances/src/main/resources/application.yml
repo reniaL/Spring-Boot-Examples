@@ -1,0 +1,43 @@
+# ----------------------------------------------------------------------
+# Configure this Discovery Server
+# ----------------------------------------------------------------------
+spring:
+  application:
+    name: eureka   
+  
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 3
+
+# ----------------------------------------------------------------------
+# Profiles for multiple instances
+# ----------------------------------------------------------------------
+---
+server:
+  port: 8760   # HTTP (Tomcat) port
+spring:
+  profiles: peer1
+eureka:
+  instance:    
+    hostname: castor
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+  client:
+    serviceUrl:
+      defaultZone: http://pollux:8761/eureka/
+
+---
+server:
+  port: 8761   # HTTP (Tomcat) port
+spring:
+  profiles: peer2
+eureka:
+  instance:    
+    hostname: pollux
+    metadataMap:
+      instanceId: ${vcap.application.instance_id:${spring.application.name}:${spring.application.instance_id:${server.port}}}
+  client:
+    serviceUrl:
+      defaultZone: http://castor:8760/eureka/  
+  server:
+    waitTimeInMsWhenSyncEmpty: 0    
